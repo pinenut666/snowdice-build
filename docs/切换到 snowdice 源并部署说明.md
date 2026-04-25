@@ -26,8 +26,8 @@
 
 修改内容：
 
-- 增加 `git submodule sync --recursive`
-- 改为使用 `git submodule update --init --recursive --remote`
+- 增加 `git submodule sync`
+- 改为使用 `git submodule update --init --remote`
 - 没有变更时不再强行 commit
 
 这样做的原因是：
@@ -44,12 +44,13 @@
 
 修改内容：
 
-- 在 `commit-num-check` 的 checkout 中加入 `submodules: recursive`
+- 在需要读取子模块的 job 中显式拉取顶层子模块
 
 原因：
 
 - 原工作流在没有拉取子模块的情况下直接执行 `cd sealdice-ui` / `cd sealdice-core`
-- 这会导致工作流在检查 commit ID 阶段就失败
+- 同时递归拉取会继续进入 `sealdice-core` 内部的嵌套子模块，容易把构建重新拖回旧源
+- 现在改为只处理顶层子模块，既能读取 core / ui，又能避免递归失败
 
 ### 4. 修正 `scripts/bump.sh` 的仓库硬编码
 
@@ -63,6 +64,33 @@
 - 改为从当前仓库的 `origin` 自动推导 `owner/repo`
 
 这样你 fork 之后直接用自己的构建仓库，也能正确 watch 自己的 GitHub Actions。
+
+### 5. 精简自动构建范围
+
+当前 `Auto Build` 只保留这些输出链路：
+
+- `ui-build`
+- `core-build`
+- `core-darwin-build`
+- `core-android-build`
+- `pc-pack`
+- `prerelease`
+- `docker-push`
+
+已经移除这些额外装配步骤：
+
+- `documents`
+- `lagrange`
+- `lagrangeV2`
+- `yogurt`
+- Android APK 打包
+- Docker full 镜像
+
+现在的结果是：
+
+- PC 预发布包只包含 core 可执行文件
+- Android 只产出 core 二进制 artifact
+- Docker 镜像只包含 core，不再拷入 `data`、`lagrange`、`milky`
 
 ## 当前应当跟踪的仓库
 
@@ -85,8 +113,8 @@
 
 ```bash
 git pull --ff-only
-git submodule sync --recursive
-git submodule update --init --recursive --remote
+git submodule sync
+git submodule update --init --remote
 ```
 
 执行后可用下面的命令确认：
@@ -95,6 +123,14 @@ git submodule update --init --recursive --remote
 git config -f .gitmodules --get submodule.sealdice-core.url
 git config -f .gitmodules --get submodule.sealdice-ui.url
 git submodule status
+```
+
+如果你是新 clone，建议不要使用 `git clone --recursive`，而是：
+
+```bash
+git clone git@github.com:pinenut666/snowdice-build.git
+cd snowdice-build
+git submodule update --init
 ```
 
 ## 日常更新方式

@@ -2,8 +2,8 @@
 setlocal
 
 git pull --ff-only || exit /b 1
-git submodule sync --recursive || exit /b 1
-git submodule update --init --recursive --remote || exit /b 1
+git submodule sync || exit /b 1
+git submodule update --init --remote || exit /b 1
 
 git status --porcelain | findstr . >nul
 if errorlevel 1 (

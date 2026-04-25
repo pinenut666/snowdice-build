@@ -2,8 +2,8 @@
 set -euo pipefail
 
 git pull --ff-only
-git submodule sync --recursive
-git submodule update --init --recursive --remote
+git submodule sync
+git submodule update --init --remote
 
 if [ -z "$(git status --porcelain)" ]; then
   echo "No submodule updates"

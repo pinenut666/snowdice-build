@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: recursive
+          submodules: true
           token: ${{ secrets.PAT_TOKEN }}
 
       - name: Set git user
@@ -33,15 +33,9 @@ jobs:
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          # fetch all refs
           git fetch --all || true
-
-          # init and update submodules (ensure folders exist)
-          git submodule init || true
-          git submodule update --recursive --remote || true
-
-          # For each submodule, detect its default branch (HEAD) and reset to that branch
-          git submodule foreach 'default_branch=$(git remote show origin | awk "/HEAD branch/ {print \$NF}" || echo master); git fetch origin --prune || true; git reset --hard origin/${default_branch} || true'
+          git submodule sync
+          git submodule update --init --remote
 
           echo "Repository status (porcelain):"
           git status --porcelain
