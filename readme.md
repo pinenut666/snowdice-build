@@ -2,7 +2,7 @@
 
 ## 简介
 
-SnowDice 工程代码合并仓库，用于实现全平台自动出包。
+SnowDice 工程代码合并仓库，用于实现全平台自动出包!
 
 使用 git submodule 机制整合以下四个仓库的代码
 - [snowdice](https://github.com/pinenut666/snowdice)：SnowDice 核心，即 SnowDice 的后端工程代码；
