@@ -23,7 +23,7 @@ unset PWD_NOW
 
 set +x
 
-repo='sealdice/sealdice-build'
+repo=$(git config --get remote.origin.url | sed -E 's#(git@github.com:|https://github.com/)##; s#\.git$##')
 sleep 10s
 
 runID=$(gh -R "$repo" run list -w 'Auto Build' -b 'dev' \
@@ -32,7 +32,7 @@ runID=$(gh -R "$repo" run list -w 'Auto Build' -b 'dev' \
 if [[ -z $runID ]]; then
   echo "No build in progress"
 else
-  gh -R sealdice/sealdice-build run watch "$runID"
+  gh -R "$repo" run watch "$runID"
 fi
 
 unset runID

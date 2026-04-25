@@ -1,7 +1,15 @@
 #!/bin/bash
-git pull
-git submodule init
-git submodule update
-git submodule foreach 'git fetch origin --prune && git reset --hard origin/master'
-git commit -am "chore: bump submodules"
+set -euo pipefail
+
+git pull --ff-only
+git submodule sync --recursive
+git submodule update --init --recursive --remote
+
+if [ -z "$(git status --porcelain)" ]; then
+  echo "No submodule updates"
+  exit 0
+fi
+
+git add -A
+git commit -m "chore: bump submodules"
 git push

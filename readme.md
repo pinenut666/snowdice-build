@@ -1,17 +1,29 @@
-# SealDice
+# SnowDice Build
 
 ## 简介
 
-海豹骰工程代码合并仓库，用于实现全平台自动出包。
+SnowDice 工程代码合并仓库，用于实现全平台自动出包。
 
 使用 git submodule 机制整合以下四个仓库的代码
-- [sealdice-core](https://github.com/sealdice/sealdice-core)：海豹核心，即海豹的后端工程代码；
-- [sealdice-ui](https://github.com/sealdice/sealdice-ui)：海豹的前端工程代码；
+- [snowdice](https://github.com/pinenut666/snowdice)：SnowDice 核心，即 SnowDice 的后端工程代码；
+- [snowdice-ui](https://github.com/pinenut666/snowdice-ui)：SnowDice 的前端工程代码；
 - [sealdice-android](https://github.com/sealdice/sealdice-android)：海豹的 Android 工程代码；
 - [sealdice-builtins](https://github.com/sealdice/sealdice-builtins)：其他海豹骰子所需的资源文件仓库，包括牌堆、helpdoc 等；
 - [go-cqhttp](https://github.com/sealdice/go-cqhttp)：go-cqhttp 的 fork。
 
 克隆该项目时需要使用 `git clone --recursive` 命令以将子模块代码一并拉取。
+
+当前仓库已将以下子模块源切换到 SnowDice：
+
+- `sealdice-core -> pinenut666/snowdice`
+- `sealdice-ui -> pinenut666/snowdice-ui`
+
+如果你是从旧的 clone 继续使用，请执行一次：
+
+```bash
+git submodule sync --recursive
+git submodule update --init --recursive --remote
+```
 
 ## 细节
 
@@ -30,4 +42,3 @@
 ## 关于 issue 和 pull request
 
 你可以通过 fork 本项目并提交 pull request 的形式贡献代码
-

@@ -1,10 +1,10 @@
 [submodule "sealdice-core"]
 	path = sealdice-core
-	url = https://github.com/sealdice/sealdice-core
+	url = git@github.com:pinenut666/snowdice.git
 	branch = master
 [submodule "sealdice-ui"]
 	path = sealdice-ui
-	url = https://github.com/sealdice/sealdice-ui
+	url = git@github.com:pinenut666/snowdice-ui.git
 	branch = master
 [submodule "sealdice-android"]
 	path = sealdice-android
