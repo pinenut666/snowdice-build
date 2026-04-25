@@ -42,6 +42,7 @@ git submodule update --init --remote
 - `pc-pack`：windows、linux、macos 三端的纯 core 打包；
 - `prerelease`：将 PC 压缩包发布到 `pre-release`；
 - `docker-push`：构建并推送基础 Docker 镜像，仅包含 core；
+- `docker-push-ai`：基于 `sealdice-core/ai` 构建并推送 AI 服务镜像；
 - `clear-temp-artifact`：清理产物，保证 artifacts 整洁。
 
 当前构建链路已移除：
@@ -58,6 +59,9 @@ git submodule update --init --remote
 - PC 压缩包中只包含 core 可执行文件
 - Android 仅产出 `core-android` 二进制 artifact
 - Docker 镜像不再内置 `data`、`lagrange`、`milky`
+- 当前会产出两个 Docker 镜像：
+  - `ghcr.io/<owner>/sealdice`
+  - `ghcr.io/<owner>/sealdice-ai`
 
 ## 关于 issue 和 pull request
 

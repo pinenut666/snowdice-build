@@ -76,6 +76,7 @@
 - `pc-pack`
 - `prerelease`
 - `docker-push`
+- `docker-push-ai`
 
 已经移除这些额外装配步骤：
 
@@ -91,6 +92,25 @@
 - PC 预发布包只包含 core 可执行文件
 - Android 只产出 core 二进制 artifact
 - Docker 镜像只包含 core，不再拷入 `data`、`lagrange`、`milky`
+- 同时会额外从 `sealdice-core/ai` 目录构建并推送 AI 服务镜像
+
+### 6. 增加 AI Docker 镜像推送
+
+修改文件：
+
+- `.github/workflows/auto-build.yml`
+
+修改内容：
+
+- 增加 `docker-push-ai` job
+- 使用 `sealdice-core/ai/Dockerfile` 直接构建
+- 推送到 `ghcr.io/<owner>/sealdice-ai`
+
+这样做的原因是：
+
+- `sealdice-core/ai` 已经自带独立 `Dockerfile`
+- 该目录本身就包含运行 AI 服务需要的 `requirements.txt`、字体和运行时目录初始化
+- 不需要再额外经过 core 编译产物装配，就可以并行产出第二个镜像
 
 ## 当前应当跟踪的仓库
 
